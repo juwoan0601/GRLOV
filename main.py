@@ -14,7 +14,7 @@ logging.getLogger().setLevel(logging.DEBUG)
 config = io_utils.load_yaml("config/gripper_grasp.yaml")
 env = get_env("gripper-env-v0", config=config, seed=0, idx_to_save_video=(0,))
 gamma=0.99
-total_timestep=100_000
+total_timestep=10_000
 
 assert type(env.observation_space) == gym.spaces.Box
 assert type(env.action_space)      == gym.spaces.Box
@@ -46,7 +46,7 @@ with tqdm(total=total_timestep) as pbar:
         ### Check stopping criterion
         if t >= total_timestep:
             break
-
+        # Policy
         action = np.random.rand(5)
         action = action * (action_max - action_min) + action_min
         obs, reward, done, _ = env.step(action)
